@@ -47,6 +47,9 @@ namespace CleanDN_CC_v2
                 int counter = 1;
                 foreach (var file in filesInFolder) //processa arquivo por arquivo encontrado na pasta...
                 {
+                    //limpa as lists antes de processar o arquivo para não duplicar os dados caso tenha mais de um arquivo...
+                    FileValid.Clear();      
+                    FileInvalid.Clear();
                     Log($"Processando o arquivo {counter}/{fileQuantity}...", false);
                     Console.WriteLine($"Processando o arquivo {counter}/{fileQuantity}...");
                     try
@@ -77,6 +80,10 @@ namespace CleanDN_CC_v2
                             actualName = $"{actual[0]}.{actual[1]}";
                             //FileWithBanName = $"{FileToProcess}.D{DateTime.Now.ToString("yyyyMMdd")}.T{DateTime.Now.ToString("HHmmss")}.txt";   //nome do arquivo com erros...
                             FileInvalidName = $"{actualName}.TXT.ERROR.D{DateTime.Now.ToString("yyyyMMdd")}.T{DateTime.Now.ToString("HHmmss")}";   //nome do arquivo com erros...
+
+                            //cria as pastas caso não existam...
+                            if (!Directory.Exists(FolderToBackup)) { Directory.CreateDirectory(FolderToBackup); }
+                            if (!Directory.Exists(FolderNonProcessed)) { Directory.CreateDirectory(FolderNonProcessed); }
 
                             using (StreamWriter sw = new StreamWriter(FolderNonProcessed + FileInvalidName)) //cria o arquivo somente dos banidos...
                             {

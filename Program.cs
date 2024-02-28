@@ -73,6 +73,7 @@ namespace CleanDN_CC_v2
                         foreach (var l in allLines) //validação de cada linha...
                         {
                             string[] DnActual = l.Split('#');
+                            string doc = DnActual[5];
                             double value = 0;
                             double.TryParse(DnActual[5], out value);
 
@@ -80,6 +81,11 @@ namespace CleanDN_CC_v2
                             {
                                 FileInvalid.Add(l);
                                 MailBody += $"\n<tr>\n<td>{DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")} => Linha {linha} do arquivo {file} inválida. Valor: {value.ToString("C")}\n</td>\n</tr>";
+                            }
+                            else if (doc.Length < 14)
+                            {
+                                FileInvalid.Add(l);
+                                MailBody += $"\n<tr>\n<td>{DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")} => Linha {linha} do arquivo {file} inválida. Valor: '{doc}'\n</td>\n</tr>";
                             }
                             else
                             {
